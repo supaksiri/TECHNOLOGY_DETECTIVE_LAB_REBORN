@@ -8,7 +8,7 @@ on:
     types: [completed]
     branches: [main]
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -42,6 +42,22 @@ jobs:
           grep -q '/TECHNOLOGY_DETECTIVE_LAB_REBORN/assets/' dist/index.html
           echo 'Vite output verified for GitHub Pages project path'
           sed -n '1,35p' dist/index.html
+      - name: Build static fallback for source-based Pages publishing
+        run: npm run build -- --base /TECHNOLOGY_DETECTIVE_LAB_REBORN/published/ --outDir published
+      - name: Verify fallback artifact
+        run: |
+          test -f published/index.html
+          test -d published/assets
+          grep -q '/TECHNOLOGY_DETECTIVE_LAB_REBORN/published/assets/' published/index.html
+      - name: Commit compiled fallback to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f published/
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: publish compiled web fallback [skip ci]"
+            git push origin HEAD:main
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
