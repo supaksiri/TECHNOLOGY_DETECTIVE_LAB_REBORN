@@ -30,6 +30,13 @@ jobs:
         run: npm run build
         env:
           GITHUB_REPOSITORY: supaksiri/TECHNOLOGY_DETECTIVE_LAB_REBORN
+      - name: Verify built output
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
+          grep -q '/TECHNOLOGY_DETECTIVE_LAB_REBORN/assets/' dist/index.html
+          echo 'Vite output verified for GitHub Pages project path'
+          sed -n '1,35p' dist/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
