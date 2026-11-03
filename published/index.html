@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#071329" />
+    <meta name="description" content="TECHNOLOGY DETECTIVE LAB — เกมสืบสวนเทคโนโลยี ม.4" />
+    <title>TECHNOLOGY DETECTIVE LAB — REBORN</title>
+    <style>
+      html,body{margin:0;min-height:100%;background:#071329;color:#e8f4ff;font-family:system-ui,"Noto Sans Thai",sans-serif}
+      #boot-message{max-width:680px;margin:15vh auto 0;padding:32px;text-align:center;line-height:1.8}
+      #boot-message h1{color:#32d8f0;font-size:clamp(1.3rem,4vw,2.5rem)}
+    </style>
+    <script type="module" crossorigin src="/TECHNOLOGY_DETECTIVE_LAB_REBORN/published/assets/index-DhdZonND.js"></script>
+    <link rel="stylesheet" crossorigin href="/TECHNOLOGY_DETECTIVE_LAB_REBORN/published/assets/index-DomjhpQO.css">
+  </head>
+  <body>
+    <div id="root">
+      <div id="boot-message" role="status">
+        <h1>TECHNOLOGY DETECTIVE LAB</h1>
+        <p>กำลังเริ่มต้นระบบสืบสวนเทคโนโลยี...</p>
+        <p>หากข้อความนี้ไม่เปลี่ยนเป็นหน้าจอเกม กรุณาตรวจสอบ GitHub Pages deployment และ JavaScript Console</p>
+      </div>
+    </div>
+    <script>
+      // When Pages accidentally publishes the repository source instead of Vite's
+      // dist output, serve the separately built static fallback automatically.
+      // Vite removes the raw /src/main.tsx URL from its production HTML, so this
+      // branch does not run when the proper dist artifact is published.
+      document.addEventListener('DOMContentLoaded', () => {
+        if (document.querySelector('script[type="module"][src="/src/main.tsx"]')) {
+          const target = '/TECHNOLOGY_DETECTIVE_LAB_REBORN/published/';
+          if (!location.pathname.startsWith(target)) {
+            location.replace(target + location.search + location.hash);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
