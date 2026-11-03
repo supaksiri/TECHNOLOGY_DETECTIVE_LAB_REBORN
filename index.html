@@ -20,6 +20,18 @@
         <p>หากข้อความนี้ไม่เปลี่ยนเป็นหน้าจอเกม กรุณาตรวจสอบ GitHub Pages deployment และ JavaScript Console</p>
       </div>
     </div>
+    <script>
+      // When Pages accidentally publishes the repository source instead of Vite's
+      // dist output, serve the separately built static fallback automatically.
+      // Vite removes the raw /src/main.tsx URL from its production HTML, so this
+      // branch does not run when the proper dist artifact is published.
+      if (document.querySelector('script[type="module"][src="/src/main.tsx"]')) {
+        const target = '/TECHNOLOGY_DETECTIVE_LAB_REBORN/published/';
+        if (!location.pathname.startsWith(target)) {
+          location.replace(target + location.search + location.hash);
+        }
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
