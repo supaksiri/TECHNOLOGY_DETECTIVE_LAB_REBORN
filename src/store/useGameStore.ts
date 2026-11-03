@@ -1,0 +1,9 @@
+import {create} from 'zustand';import {persist,createJSONStorage} from 'zustand/middleware';import type {CaseProgress,DomainId,LabId} from '../types';import {initialProgress} from '../engine/missionEngine';
+interface GameState{lab:LabId;progress:CaseProgress;name:string;lowMotion:boolean;lowDetail:boolean;setLab:(lab:LabId)=>void;setName:(s:string)=>void;collect:(id:string)=>void;setLinks:(id:string,values:DomainId[])=>void;setNetwork:(domain:DomainId,id:string)=>void;completeSimulation:(result:string)=>void;answer:(id:string,option:number)=>void;completeCase:()=>void;reset:()=>void;setLowMotion:(v:boolean)=>void;setLowDetail:(v:boolean)=>void;}
+export const useGameStore=create<GameState>()(persist((set)=>({lab:1,progress:initialProgress(),name:'DETECTIVE 01',lowMotion:false,lowDetail:false,
+setLab:lab=>set({lab}),setName:name=>set({name}),collect:id=>set(s=>({progress:{...s.progress,found:s.progress.found.includes(id)?s.progress.found:[...s.progress.found,id]}})),
+setLinks:(id,values)=>set(s=>({progress:{...s.progress,links:{...s.progress.links,[id]:values}}})),
+setNetwork:(domain,id)=>set(s=>({progress:{...s.progress,network:{...s.progress.network,[domain]:id}}})),
+completeSimulation:result=>set(s=>({progress:{...s.progress,simulationDone:true,simulationResult:result}})),
+answer:(id,option)=>set(s=>({progress:{...s.progress,quizAnswers:{...s.progress.quizAnswers,[id]:option}}})),
+completeCase:()=>set(s=>({progress:{...s.progress,complete:true}})),reset:()=>set({lab:1,progress:initialProgress()}),setLowMotion:lowMotion=>set({lowMotion}),setLowDetail:lowDetail=>set({lowDetail})}),{name:'tdl-reborn-case01',version:1,storage:createJSONStorage(()=>localStorage),partialize:s=>({lab:s.lab,progress:s.progress,name:s.name,lowMotion:s.lowMotion,lowDetail:s.lowDetail}),migrate:(state)=>state as GameState}));
